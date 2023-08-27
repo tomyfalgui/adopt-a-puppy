@@ -1,6 +1,7 @@
 'use client'
 
 import {useState, useEffect} from 'react'
+import PuppyDisplay from "../components/Puppy";
 import {Puppy} from "@/types/puppy";
 
 export default function Home() {
@@ -19,14 +20,8 @@ export default function Home() {
 
             {data && data.length > 0 ?
                 <ul>
-                    {data.map((puppy, idx) => {
-                        return (
-                            // we keep index as key
-                            <li key={idx}>
-                                <img src={puppy.photoUrl} alt={`Puppy image of ${puppy.breed}`}/>
-                                <p>{puppy.name}</p>
-                            </li>
-                        )
+                    {data.map(({name, photoUrl, breed}, idx) => {
+                        return <PuppyDisplay name={name} photoUrl={photoUrl} breed={breed} key={idx}/>
                     })}
                 </ul>
                 : null}
