@@ -30,5 +30,8 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.2",
     "msw": "^1.2.4"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

@@ -1,4 +1,6 @@
-export const puppyList = [
+import {Puppy} from "@/types/puppy";
+
+export const puppyList: Puppy[] = [
     {
         "name": "Samuel",
         "age": 1,
