@@ -61,5 +61,9 @@ export let puppies: Puppy[] = [
 ];
 
 // methods below
+async function query(queryObj: {}) {
+    return _.filter(puppies, queryObj)
+}
 
+export { query }
 

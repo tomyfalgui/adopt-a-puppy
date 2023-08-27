@@ -1,5 +1,5 @@
 import axios from 'axios'
-import startServer from "@/start";
+import startServer from "../start";
 import {afterAll, beforeAll, describe} from "vitest";
 import { puppies } from '@/db/puppy';
 
@@ -24,7 +24,7 @@ describe('puppy functions', async () => {
        const { api } = setup()
 
        const availablePuppies = await api.get('/puppy')
-       expect(availablePuppies).toMatchObject(puppies)
+       expect(availablePuppies.data).toMatchObject(puppies)
 
    })
 })
