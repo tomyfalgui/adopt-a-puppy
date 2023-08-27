@@ -13,7 +13,7 @@ export type Puppy = {
 }
 
 // test data
-let puppies: Puppy[] = [
+export let puppies: Puppy[] = [
     {
         "name": "Samuel",
         "age": 1,
