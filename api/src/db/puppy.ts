@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _, { uniq } from 'lodash'
 
 export type Puppy = {
   name: string
@@ -87,10 +87,10 @@ function buildFilterOptions() {
   const uniqueGenders = extractUniqueValues(puppies, 'gender')
 
   return {
-    breeds: uniqueBreeds,
-    ages: uniqueAges,
-    sizes: uniqueSizes,
-    genders: uniqueGenders,
+    breeds: ['All breeds', ...uniqueBreeds],
+    ages: ['All ages', ...uniqueAges],
+    sizes: ['All sizes', ...uniqueSizes],
+    genders: ['All genders', ...uniqueGenders],
   }
 }
 
