@@ -19,7 +19,7 @@ export default function Home() {
   }, [])
 
   const handleFilterChange = (selectedFilters: Record<string, any>) => {
-    const { breed, age, gender, size } = selectedFilters
+    const { breed, age, gender, size, search } = selectedFilters
 
     let filteredPuppies = [...originalPuppies]
 
@@ -34,6 +34,15 @@ export default function Home() {
     }
     if (!size.includes('All')) {
       filteredPuppies = filteredPuppies.filter(p => p.size === size)
+    }
+
+    if (search) {
+      const searchLowerCase = search.toLowerCase()
+      filteredPuppies = filteredPuppies.filter(p => {
+        return Object.values(p).some(value =>
+          String(value).toLowerCase().includes(searchLowerCase)
+        )
+      })
     }
 
     setFilteredPuppies(filteredPuppies)

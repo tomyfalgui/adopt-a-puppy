@@ -42,6 +42,7 @@ export default function FilterOptions({
     age: 'All ages',
     gender: 'All genders',
     size: 'All sizes',
+    search: '',
   })
 
   const filterMapping = [
@@ -67,6 +68,11 @@ export default function FilterOptions({
           options={filterOptions[dataKey]}
         />
       ))}
+      <input
+        type="text"
+        onChange={e => filterOnChange('search')(e.target.value)}
+        value={selectedFilter.search}
+      />
     </>
   )
 }
