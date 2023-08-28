@@ -17,14 +17,15 @@ const server = setupServer(
       return res(
         ctx.json({
           breeds: [
+            'All breeds',
             'Jack Russell',
             'Collie cross',
             'Labrador',
             'Springer Spaniel',
           ],
-          ages: [1, 2, 3],
-          genders: ['male', 'female'],
-          sizes: ['small', 'medium', 'large'],
+          ages: ['All ages', '1', '2', '3'],
+          genders: ['All genders', 'male', 'female'],
+          sizes: ['All sizes', 'small', 'medium', 'large'],
         })
       )
     }
@@ -62,12 +63,13 @@ describe('filter options', () => {
     render(<Home />)
 
     const selectBreed = screen.getByRole('combobox', {
-      name: /select a breed/i,
+      name: /breed/i,
     })
     const breedOptions = await within(selectBreed).findAllByRole('option')
     const breedOptionTexts = breedOptions.map(opt => opt.textContent)
 
     const expectedBreeds = [
+      'All breeds',
       'Jack Russell',
       'Collie cross',
       'Labrador',
@@ -75,6 +77,48 @@ describe('filter options', () => {
     ]
     expectedBreeds.forEach(opt => {
       expect(breedOptionTexts).toContain(opt)
+    })
+  })
+  test('should fetch and render specific gender options', async () => {
+    render(<Home />)
+
+    const selectGender = screen.getByRole('combobox', {
+      name: /gender/i,
+    })
+    const genderOptions = await within(selectGender).findAllByRole('option')
+    const genderOptionTexts = genderOptions.map(opt => opt.textContent)
+
+    const expectedGenders = ['All genders', 'male', 'female']
+    expectedGenders.forEach(opt => {
+      expect(genderOptionTexts).toContain(opt)
+    })
+  })
+  test('should fetch and render specific size options', async () => {
+    render(<Home />)
+
+    const selectSize = screen.getByRole('combobox', {
+      name: /size/i,
+    })
+    const sizeOptions = await within(selectSize).findAllByRole('option')
+    const sizeOptionTexts = sizeOptions.map(opt => opt.textContent)
+
+    const expectedSizes = ['All sizes', 'small', 'medium', 'large']
+    expectedSizes.forEach(opt => {
+      expect(sizeOptionTexts).toContain(opt)
+    })
+  })
+  test('should fetch and render specific age options', async () => {
+    render(<Home />)
+
+    const selectAge = screen.getByRole('combobox', {
+      name: /age/i,
+    })
+    const ageOptions = await within(selectAge).findAllByRole('option')
+    const ageOptionTexts = ageOptions.map(opt => opt.textContent)
+
+    const expectedAges = ['All ages', '1', '2', '3']
+    expectedAges.forEach(opt => {
+      expect(ageOptionTexts).toContain(opt)
     })
   })
 })

@@ -8,7 +8,7 @@ export default function Home() {
   const [data, setData] = useState<Puppy[]>([])
   const [filterOptions, setFilterOptions] = useState<{
     breeds: string[]
-    ages: number[]
+    ages: string[]
     genders: string[]
     sizes: string[]
   }>()
@@ -31,9 +31,36 @@ export default function Home() {
       <h1 className="text-5xl mb-10">Adopt A Puppy</h1>
 
       <label>
-        Select a breed
+        Breed
         <select>
           {filterOptions?.breeds.map(opt => {
+            return <option key={opt}>{opt}</option>
+          })}
+        </select>
+      </label>
+
+      <label>
+        Gender
+        <select>
+          {filterOptions?.genders.map(opt => {
+            return <option key={opt}>{opt}</option>
+          })}
+        </select>
+      </label>
+
+      <label>
+        Size
+        <select>
+          {filterOptions?.sizes.map(opt => {
+            return <option key={opt}>{opt}</option>
+          })}
+        </select>
+      </label>
+
+      <label>
+        Age
+        <select>
+          {filterOptions?.ages.map(opt => {
             return <option key={opt}>{opt}</option>
           })}
         </select>
