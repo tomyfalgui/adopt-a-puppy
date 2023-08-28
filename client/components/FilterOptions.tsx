@@ -3,7 +3,7 @@ import { FilterOptionProp, SelectedFilter } from '@/types/filterOption'
 
 function FilterOption({ label, options, onChange }: FilterOptionProp) {
   return (
-    <label>
+    <label className="flex flex-col">
       {label}
       <select onChange={e => onChange(e.target.value)}>
         {options.map(opt => (
@@ -61,16 +61,19 @@ export default function FilterOptions({
 
   return (
     <>
-      {filterMapping.map(({ label, stateKey, dataKey }) => (
-        <FilterOption
-          label={label}
-          onChange={filterOnChange(stateKey)}
-          options={filterOptions[dataKey]}
-        />
-      ))}
+      <div>
+        {filterMapping.map(({ label, stateKey, dataKey }) => (
+          <FilterOption
+            label={label}
+            onChange={filterOnChange(stateKey)}
+            options={filterOptions[dataKey]}
+          />
+        ))}
+      </div>
       <input
         type="text"
         onChange={e => filterOnChange('search')(e.target.value)}
+        placeholder="keyword search"
         value={selectedFilter.search}
       />
     </>
