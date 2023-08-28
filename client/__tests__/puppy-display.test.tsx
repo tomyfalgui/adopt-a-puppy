@@ -169,4 +169,36 @@ describe('filter options interaction', () => {
     expect(janna).toBeInTheDocument()
     expect(filteredBreedGenderPups[0]).toContainElement(janna)
   })
+  test('keyword search should also filter puppies: name', async () => {
+    render(<Home />)
+    const user = userEvent.setup()
+    const searchBox = screen.getByRole('textbox')
+
+    await user.click(searchBox)
+    await user.keyboard('Janna')
+
+    const filteredPups = await screen.findAllByRole('listitem')
+    const janna = screen.getByText(/janna/i)
+
+    expect(filteredPups).toHaveLength(1)
+    expect(janna).toBeInTheDocument()
+    expect(filteredPups[0]).toContainElement(janna)
+  })
+  test('keyword search should also filter puppies besides the name prop', async () => {
+    // arrange
+    render(<Home />)
+    const user = userEvent.setup()
+    const searchBox = screen.getByRole('textbox')
+
+    // act
+    await user.click(searchBox)
+    await user.keyboard('Jack Russell')
+
+    // assert
+    const existingPuppies = await screen.findAllByRole('listitem')
+    const samuel = screen.getByText(/samuel/i)
+    expect(existingPuppies).toHaveLength(1)
+    expect(samuel).toBeInTheDocument()
+    expect(existingPuppies[0]).toContainElement(samuel)
+  })
 })
