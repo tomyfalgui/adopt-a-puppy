@@ -123,8 +123,10 @@ describe('filter options fetching and rendering', () => {
   })
 })
 
+// for the purpose of the exercise
+// filtering is done on the frontend
 describe('filter options interaction', () => {
-  test('single: puppy display should change based on selected filter options', async () => {
+  test('single option: puppy display should change based on selected filter options', async () => {
     // arrange
     render(<Home />)
     const user = userEvent.setup()
@@ -142,5 +144,29 @@ describe('filter options interaction', () => {
     expect(existingPuppies).toHaveLength(1)
     expect(samuel).toBeInTheDocument()
     expect(existingPuppies[0]).toContainElement(samuel)
+  })
+  test('multiple options: puppy display should change based on selected filter options', async () => {
+    // arrange
+    render(<Home />)
+    const user = userEvent.setup()
+    const selectBreed = screen.getByRole('combobox', {
+      name: /breed/i,
+    })
+    const selectGender = screen.getByRole('combobox', {
+      name: /gender/i,
+    })
+
+    // act
+    await within(selectBreed).findAllByRole('option')
+    await user.selectOptions(selectBreed, 'Labrador')
+    await user.selectOptions(selectGender, 'female')
+    const filteredBreedGenderPups = await screen.findAllByRole('listitem')
+
+    const janna = screen.getByText(/janna/i)
+
+    await within(selectGender).findAllByRole('option')
+    expect(filteredBreedGenderPups).toHaveLength(1)
+    expect(janna).toBeInTheDocument()
+    expect(filteredBreedGenderPups[0]).toContainElement(janna)
   })
 })

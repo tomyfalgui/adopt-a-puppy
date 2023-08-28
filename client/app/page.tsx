@@ -13,6 +13,9 @@ export default function Home() {
     sizes: string[]
   }>()
   const [breed, setBreed] = useState('All breeds')
+  const [gender, setGender] = useState('All genders')
+  const [age, setAge] = useState('All ages')
+  const [size, setSize] = useState('All sizes')
 
   useEffect(() => {
     fetch('http://localhost:5555/api/puppy')
@@ -47,27 +50,39 @@ export default function Home() {
 
       <label>
         Gender
-        <select>
+        <select onChange={e => setGender(e.target.value)}>
           {filterOptions?.genders.map(opt => {
-            return <option key={opt}>{opt}</option>
+            return (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            )
           })}
         </select>
       </label>
 
       <label>
         Size
-        <select>
+        <select onChange={e => setSize(e.target.value)}>
           {filterOptions?.sizes.map(opt => {
-            return <option key={opt}>{opt}</option>
+            return (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            )
           })}
         </select>
       </label>
 
       <label>
         Age
-        <select>
+        <select onChange={e => setAge(e.target.value)}>
           {filterOptions?.ages.map(opt => {
-            return <option key={opt}>{opt}</option>
+            return (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            )
           })}
         </select>
       </label>
@@ -77,6 +92,13 @@ export default function Home() {
           {data
             .filter(puppy =>
               breed.includes('All') ? true : puppy.breed === breed
+            )
+            .filter(puppy =>
+              gender.includes('All') ? true : puppy.gender === gender
+            )
+            .filter(puppy => (age.includes('All') ? true : puppy.age === +age))
+            .filter(puppy =>
+              size.includes('All') ? true : puppy.size === size
             )
             .map(({ name, photoUrl, breed }, idx) => {
               return (
