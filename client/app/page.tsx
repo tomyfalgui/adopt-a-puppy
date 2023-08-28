@@ -27,7 +27,7 @@ export default function Home() {
       filteredPuppies = filteredPuppies.filter(p => p.breed === breed)
     }
     if (!age.includes('All')) {
-      filteredPuppies = filteredPuppies.filter(p => p.age === age)
+      filteredPuppies = filteredPuppies.filter(p => p.age === Number(age))
     }
     if (!gender.includes('All')) {
       filteredPuppies = filteredPuppies.filter(p => p.gender === gender)
