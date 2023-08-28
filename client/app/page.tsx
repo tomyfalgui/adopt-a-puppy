@@ -12,6 +12,7 @@ export default function Home() {
     genders: string[]
     sizes: string[]
   }>()
+  const [breed, setBreed] = useState('All breeds')
 
   useEffect(() => {
     fetch('http://localhost:5555/api/puppy')
@@ -26,15 +27,20 @@ export default function Home() {
         setFilterOptions(data)
       })
   }, [])
+
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <h1 className="text-5xl mb-10">Adopt A Puppy</h1>
 
       <label>
         Breed
-        <select>
+        <select onChange={e => setBreed(e.target.value)}>
           {filterOptions?.breeds.map(opt => {
-            return <option key={opt}>{opt}</option>
+            return (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            )
           })}
         </select>
       </label>
@@ -68,16 +74,20 @@ export default function Home() {
 
       {data && data.length > 0 ? (
         <ul className="flex flex-wrap">
-          {data.map(({ name, photoUrl, breed }, idx) => {
-            return (
-              <PuppyDisplay
-                name={name}
-                photoUrl={photoUrl}
-                breed={breed}
-                key={idx}
-              />
+          {data
+            .filter(puppy =>
+              breed.includes('All') ? true : puppy.breed === breed
             )
-          })}
+            .map(({ name, photoUrl, breed }, idx) => {
+              return (
+                <PuppyDisplay
+                  name={name}
+                  photoUrl={photoUrl}
+                  breed={breed}
+                  key={idx}
+                />
+              )
+            })}
         </ul>
       ) : null}
     </main>

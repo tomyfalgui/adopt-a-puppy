@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.2",
+    "@testing-library/user-event": "^14.4.3",
     "msw": "^1.2.4"
   },
   "msw": {
