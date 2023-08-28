@@ -6,6 +6,12 @@ import { Puppy } from '@/types/puppy'
 
 export default function Home() {
   const [data, setData] = useState<Puppy[]>([])
+  const [filterOptions, setFilterOptions] = useState<{
+    breeds: string[]
+    ages: number[]
+    genders: string[]
+    sizes: string[]
+  }>()
 
   useEffect(() => {
     fetch('http://localhost:5555/api/puppy')
@@ -13,10 +19,25 @@ export default function Home() {
       .then(data => {
         setData(data)
       })
+
+    fetch('http://localhost:5555/api/puppy/filter-options')
+      .then(res => res.json())
+      .then(data => {
+        setFilterOptions(data)
+      })
   }, [])
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <h1 className="text-5xl mb-10">Adopt A Puppy</h1>
+
+      <label>
+        Select a breed
+        <select>
+          {filterOptions?.breeds.map(opt => {
+            return <option key={opt}>{opt}</option>
+          })}
+        </select>
+      </label>
 
       {data && data.length > 0 ? (
         <ul className="flex flex-wrap">
