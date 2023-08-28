@@ -3,9 +3,10 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { render, screen, within } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import userEvent from '@testing-library/user-event'
+
 import { puppyList } from '../testdata/puppy'
 import Home from '../app/page'
-import exp from 'constants'
 
 const server = setupServer(
   rest.get('http://localhost:5555/api/puppy', (req, res, ctx) => {
@@ -44,7 +45,6 @@ describe('puppy rendering', () => {
 
     expect(screen.getByRole('heading')).toHaveTextContent(/adopt a puppy/i)
   })
-
   test('loads and displays puppies', async () => {
     render(<Home />)
 
@@ -58,7 +58,7 @@ describe('puppy rendering', () => {
   })
 })
 
-describe('filter options', () => {
+describe('filter options fetching and rendering', () => {
   test('should fetch and render specific breed options', async () => {
     render(<Home />)
 
@@ -120,5 +120,27 @@ describe('filter options', () => {
     expectedAges.forEach(opt => {
       expect(ageOptionTexts).toContain(opt)
     })
+  })
+})
+
+describe('filter options interaction', () => {
+  test('single: puppy display should change based on selected filter options', async () => {
+    // arrange
+    render(<Home />)
+    const user = userEvent.setup()
+    const selectBreed = screen.getByRole('combobox', {
+      name: /breed/i,
+    })
+
+    // act
+    await within(selectBreed).findAllByRole('option')
+    await user.selectOptions(selectBreed, 'Jack Russell')
+
+    // assert
+    const existingPuppies = await screen.findAllByRole('listitem')
+    const samuel = screen.getByText(/samuel/i)
+    expect(existingPuppies).toHaveLength(1)
+    expect(samuel).toBeInTheDocument()
+    expect(existingPuppies[0]).toContainElement(samuel)
   })
 })
